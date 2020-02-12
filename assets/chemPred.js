@@ -344,10 +344,6 @@ function div_list(models, featureName) {
     }
     //);
 }
-function check_if_valid(modelId) {
-
-}
-
 
 function chemPredictorCall(elem) {
     clear_response();
@@ -481,37 +477,7 @@ function show(result, featureName) {
     }
 
 }
-function show1(result) {
-    $("#my-loader").attr("class", "invisible");
-    var res = result;
-    //alert("inside show" + res);
-    $("#response_container").attr("class", "visible");
-    // $("#response_container").children($("<p></p>")).attr("class", "visible");
-    $("#response_container").append($("<table></table>").attr("id", "response"));
-    var clear_button = $("<button id='clear_response' onclick='clear_response()'>Clear</button>");
-    $("#response_container").append(clear_button);
 
-    for (var i = 0; i < res.length; i++) {
-        // if (i == 0) {
-        //   $("#response").append($("<tr></tr>").attr("class", "header"));
-        //   var fe = $(".header");
-
-        //   $.each(res[i], function (k, v) {
-        //     fe.append($("<th></th>").html(k));
-        //   });
-        if (i == 0) {
-            $("#response").append($("<tr></tr>").attr("class", "header"));
-            // $("#response").css({"border": "2px","solid": "silver","width": "auto","margin-right": "100px"});
-            var fe = $(".header");
-            fe.append($("<th></th>").html("response"));
-            fe.append($("<th></th>").html("Smiles"));
-        }
-        console.log(JSON.stringify(res[i]));
-        print_row_table1(res[i], i, "response");
-        var sar = smilesInput.split(",");
-        print_smiles(sar[i], i);
-    }
-}
 function print_smiles(item, index) {
     var elem = $("#" + index);
     elem.append($("<td></td>").html(item));
@@ -527,16 +493,6 @@ function print_row_table(item, index, featureName) {
             elem.append($("<td></td>").attr("class", k).html(v));
         }
     });
-}
-function print_row_table1(item, index, featureName) {
-    $("#response").append($("<tr></tr>").attr("id", index));
-    var elem = $("#" + index);
-    $.each(item, function (k, v) {
-        //  if (k == featureName) {
-        elem.append($("<td></td>").attr("class", k).html(v));
-        // }
-    });
-
 }
 function repeatedAJAXCalls(task_url, i, featureName) {
 
@@ -579,16 +535,7 @@ function repeatedAJAXCalls(task_url, i, featureName) {
         );
 
 }
-function repeatedAJAXCalls1(flag) {
-    for (var i = 1; i < 1100000; i++) { }
 
-
-    var result = [{ "entryId": "1", "values": { "1": "0.1", "2": "0.2", "3": "0.3" } }, { "entryId": "2", "values": { "1": "0.2", "2": "0.4", "3": "0.6" } }];;
-    // alert("Result: "+result);
-    show1(result);
-
-
-}
 function clear_response() {
     $("#response").children().remove();
     $("#response").remove();
