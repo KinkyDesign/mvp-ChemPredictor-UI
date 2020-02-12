@@ -1,5 +1,7 @@
 //this function will be called after the JavaScriptApplet code has been loaded.
 smilesArray = [];
+urlBase="";
+keycloakBase="";
 function jsmeOnLoad() {
     jsmeApplet = new JSApplet.JSME("jsme_container", "480px", "450px", {
         "options": "oldlook,star"
@@ -7,7 +9,16 @@ function jsmeOnLoad() {
     });
 }
 
+function initiate(){
+  $.getJSON("http://localhost:4200/assets/conf.json",function(conf){
+      urlBase = String(conf.jaqpot_base_url);
+      keycloakBase = String(conf.keycloak_base_url);
+      alert(urlBase);
+      chemPredict();
+  });
+ 
 
+}
 function get_from_csv() {
     //https://stackoverflow.com/questions/12281775/get-data-from-file-input-in-jquery
     var form = $("#smiles_form");
@@ -32,10 +43,10 @@ function get_from_csv() {
             // fr.readAsDataURL(file);
             fr.onload = function (e) {
                 var resultFile = fr.result;
-                console.log("Smiles: " + fr.result);
+                //console.log("Smiles: " + fr.result);
                 smilesArray = resultFile.split("\n");
                 if (smilesArray.length > 1) {
-                    console.log("1st: " + String(smilesArray[1]));
+                    //console.log("1st: " + String(smilesArray[1]));
                 }
             };
             fr.readAsText(file);
@@ -61,7 +72,8 @@ function secureChemPredictor() {
         if (authenticated == true) {
             keycloak.updateToken(30).then(function () {
                 //chemPredict(keycloak.token);
-                chemPredict();
+                //chemPredict();
+                initiate();
             }).catch(function () {
                 alert('Failed to refresh token');
             });
@@ -73,9 +85,9 @@ function secureChemPredictor() {
 function chemPredict() {
 
     //alert("chemPredict " + auth);
-    var urlLogin = "http://localhost:8080/jaqpot/services/aa/login";
-    username = "";
-    password = "";
+    var urlLogin = urlBase+"services/aa/login";
+    username = "angeliki";
+    password = "angeliki9";
 
     $.ajax(urlLogin, {
         method: 'POST',
@@ -93,10 +105,10 @@ function chemPredict() {
                 // name, age, address, etc
                 auth = data.authToken;
                 //alert("successful call");
-                console.log('Succesful call ');
-                console.log("authToken: " + auth);
+                console.log('Succesful call - login service');
+                //console.log("authToken: " + auth);
 
-                var all_model_url = "http://localhost:8080/jaqpot/services/model"
+                var all_model_url = urlBase+"services/model"
 
                 $.ajax(all_model_url, {
                     method: 'GET',
@@ -120,7 +132,7 @@ function chemPredict() {
                             var models = "";
                             modelData.forEach(function (model, index) {
                                 //alert("model " + model._id);
-                                var modelURI = "http://localhost:8080/jaqpot/services/model/" + model._id;
+                                var modelURI = urlBase+"services/model/" + model._id;
                                 $.ajax(modelURI, {
                                     method: 'GET',
                                     contentType: 'application/json;',
@@ -166,7 +178,7 @@ function chemPredict() {
                                                         if (visited.has(title) != true) {
                                                             models = String(item._id) + ",";
                                                             visited.set(title, models);
-                                                            console.log("visited: title " + title + " models: " + visited.get(title));
+                                                           //console.log("visited: title " + title + " models: " + visited.get(title));
 
                                                             myElem.append($("<option></option>").attr("id", title).html(title));
                                                             $("#" + title).attr("value", models);
@@ -257,13 +269,13 @@ function div_list(models, featureName) {
         //alert("Print_div_model " + featureName);
         if (item != "") {
             var mySelect = $('#model_container');
-            console.log(item);
+            //console.log(item);
             mySelect.append($('<div  class= "model"  onclick = "chemPredictorCall(this)"></div>').attr("id", item).attr("name", featureName).html(item));
             var anOption = $('#' + item);
             anOption.mouseover(function () {
                 var modelId = String($(this).attr("id"));
-                var model_url = "http://localhost:8080/jaqpot/services/model/" + modelId;
-                console.log("This is modelURL: " + model_url);
+                var model_url = urlBase+"services/model/" + modelId;
+                //console.log("This is modelURL: " + model_url);
                 $("#" + modelId).append($('<div></div>').attr("id", "model_info_list"));
 
                 // $.each(item.meta, function (k, v) {
@@ -288,8 +300,8 @@ function div_list(models, featureName) {
                     .then(
                         function success(data) {
                             //console.log("Successful call - get by model id");
-                            console.log("modelId iiss: " + data._id);
-                            console.log("modelId meta: " + JSON.stringify(data.meta));
+                            //console.log("modelId iiss: " + data._id);
+                            //console.log("modelId meta: " + JSON.stringify(data.meta));
                             $.each(data.meta, function (k, v) {
                                 $("#model_info_list").append($('<span></span>').html(k + " : " + v + "<br>"));
                             });
@@ -350,7 +362,8 @@ function chemPredictorCall(elem) {
     //var ldld = new ldLoader({ root: "#my-loader" });
     //ldld.on();
     var modelId = String(elem.getAttribute("id"));
-    var modelURI = "http://localhost:8080/jaqpot/services/model/" + modelId;
+    //var modelURI = "http://localhost:8080/jaqpot/services/model/" + modelId;
+    var modelURI = urlBase+"services/model/" + modelId;
     $.ajax(modelURI, {
         method: 'GET',
         contentType: 'application/json;',
@@ -368,8 +381,8 @@ function chemPredictorCall(elem) {
             function success(item) {
                 // userInfo will be a JavaScript object containing properties such as
                 // name, age, address, etc
-                console.log('Succesful call: CHECK specific Model id ' + item._id);
-                console.log("item.independentFeatures: " + JSON.stringify(item.independentFeatures));
+                //console.log('Succesful call: CHECK specific Model id ' + item._id);
+                //console.log("item.independentFeatures: " + JSON.stringify(item.independentFeatures));
                 if (item.independentFeatures.length == 0) {
                     $("#my-loader").attr("class", "invisible");
                     alert("This model has no input features specified and therefore it is not trained well. \n Pick another one...");
@@ -401,7 +414,8 @@ function chemPredictorCall(elem) {
                     }
 
                     //alert(smilesInput);
-                    var chemPredict_url = "http://localhost:8080/jaqpot/services/chemPredictor/apply";
+                    //var chemPredict_url = "http://localhost:8080/jaqpot/services/chemPredictor/apply";
+                    var chemPredict_url = urlBase+"services/chemPredictor/apply";
 
                     //repeatedAJAXCalls1(0);
                     $.ajax(chemPredict_url, {
@@ -426,7 +440,7 @@ function chemPredictorCall(elem) {
                             function success(data) {
                                 // userInfo will be a JavaScript object containing properties such as
                                 // name, age, address, etc
-                                console.log('Succesful call 5');
+                                console.log('Succesful call ChemPredictor Apply');
                                 var task_url = String(data);
                                 repeatedAJAXCalls(task_url, 0, featureName);
 
@@ -469,7 +483,7 @@ function show(result, featureName) {
             fe.append($("<th></th>").html(featureName));
             fe.append($("<th></th>").html("Smiles"));
         }
-        console.log(JSON.stringify(res[i]));
+        //console.log(JSON.stringify(res[i]));
         print_row_table(res[i], i, featureName);
         var sar = smilesInput.split(",");
         print_smiles(sar[i], i);
@@ -515,7 +529,7 @@ function repeatedAJAXCalls(task_url, i, featureName) {
                 // name, age, address, etc
                 i++;
                 console.log('Succesful call ' + String(i) + " " + task_url + " " + featureName);
-                console.log('Status: ' + data.status);
+                //console.log('Status: ' + data.status);
                 if (data.status == "RUNNING" || data.status == "QUEUED") {
 
                     setInterval(repeatedAJAXCalls(task_url, i, featureName), 180000);
