@@ -1,0 +1,161 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+div{
+  display: block;
+  width: auto;
+  word-wrap: break-word;
+}
+#container {
+
+  position: relative;
+  width : 100%;
+  height: 100%;
+}
+h1{
+text-align: center;
+}
+h2 {
+  font-style: italic;
+  color : blue;
+  text-align: center;
+}
+#jsme_container{
+  position: relative;
+
+}
+#feature_container{
+    display: block;
+    width: auto;
+    word-wrap: break-word;
+}
+#model_info_list {
+
+    background-color: rgba(248, 155, 145, 0.7) ;
+    width: auto;
+    border: 2px solid rgb(245, 143, 143);
+    padding-top: 10px ;
+    padding-bottom: 10px ;
+    padding-right: 10px;
+    text-align: center;
+    position: absolute;
+    left: 416px;
+    bottom: 3px;
+    box-shadow: slategrey;
+  }
+.model {
+    background-color: rgb(230, 243, 239,1); 
+    width: 400px;
+    height: 40px;
+    border: 2px solid silver;
+    padding-top: 10px ;
+    padding-right: 10px;
+    text-align: center;
+    position: relative;;
+  }
+.invisible{
+  visibility: hidden;
+  display: none;
+}
+.visible{
+  visibility: visible;
+  display: block;
+}
+#response_container{
+  position: absolute;
+  display:block;
+  left:20%;
+  top: 10%;
+  width: 50%;
+  height: 50%;
+  border: 3px solid silver;
+  background-color: rgba(230, 243, 239, 0.9); 
+}
+
+#input_frame{
+  position: absolute;
+  display:block;
+  left: 0;
+  width: 50%;
+  height: 100%;
+}
+#response_frame{
+  position: absolute;
+  display:block;
+  left: 50%;
+  width: 50%;
+  height: 100%
+}
+#my-loader{
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  left: 800px;
+  bottom: 350px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+#clear_response{
+
+  position: absolute;
+  bottom: -10%;
+  right: 0%;
+  width: 100px;
+  
+}
+table {
+    margin-left: 5px;
+  }
+
+td{
+  margin-right: 3px;
+  
+}
+#keyboard TD{
+  font-size: small;
+
+}
+
+#keyboard{
+position: absolute;
+left: 25%;
+bottom: 0;
+
+}
+
+
+#response td{
+  background-color:  rgba(248, 155, 145, 0.7) ;
+  padding: 3px;
+}
+
+#response th{
+
+  padding: 3px;
+}
+
+#model_frame{
+  display: block;
+  position: relative;
+  height: 100%;
+}
+#footer{
+
+  width: 1600px;
+  margin-top: 5%;
+  margin-left: 2%;
+  
+  padding-bottom: 1%;
+  padding-top: 1%;
+  word-wrap: none;
+  position: absolute;
+}
+
+#account-settings{
+
+  position: absolute;
+
+  right:2%;
+  top: 0;
+}

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>MyApp</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="css" href="styles.css">
+  <link rel="alternate" type="text" href="http://localhost:4200/assets/conf.json">
+
+  <link rel="icon" type="image/x-icon" href="assets/images/sample_img.gif">
+  <!--link rel="stylesheet" type="text/css" href="assets/ldld/ldld.css" /-->
+  <!--script-- src="assets/ldld/ldld.js"></!--script-->
+  <script type="text/javascript" language="javascript" src="assets/jsme/jsme.nocache.js"></script>
+  <!--script type="text/javascript" language="javascript" src="assets/jsme/jsme.devmode.js"></script-->
+  <script type="text/javascript" language="javascript" src="assets/jsme/jsme.hello.js"></script>
+  <script type="text/javascript" language="javascript"
+    src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script type="text/javascript" language="javascript" src="assets/chemPred.js"></script>
+
+  <!--script type="text/javascript" language="javascript" src="http://localhost:8180/auth/js/keycloak.js"></!--script-->
+
+</head>
+
+<body onload="secureChemPredictor()">
+  <div id="container">
+    <h1>ChemPredictor</h1>
+    <h2>Predict chemical features based on structure properties</h2>
+    <a id="account-settings" href="http://localhost:8180/auth/realms/jaqpot/protocol/openid-connect/logout" >
+      Logout</a>
+    <div id="input_frame">
+      <div id="molecule_editor_container">
+        <div id="jsme_container">
+          <p id="jsme"><i>Submit your subject chemical structure</i></p>
+          <!--div ng-app="myApp" ng-controller="myC" @id="jsme_container0"></div-->
+        </div>
+        <button type="button" onclick='jsmeApplet.reset()'>Clear</button>
+        <!--https://peter-ertl.com/jsme/JSME_2017-02-26/jme_examples/jme_example1.html-->
+
+      </div>
+      </br>
+      <p><i>Alternatively, upload your Smiles file.</i></p>
+      <div id="upload_file_container">
+        <form method="post" enctype="multipart/form-data" id="smiles_form">
+          <input type="file" id="smiles_file" value="" />
+          <input id="submit" type="submit" value="Upload smiles file" onclick="get_from_csv()" name="submit" />
+          <!--input id= "cancel" type = "cancel" value = "Cancel" onclick="cancel_file_selection()"/-->
+          <input type="reset" onclick="smilesArray=[];" />
+        </form>
+
+      </div>
+      </br>
+      <div id="feature_container">
+        <p><b>Feature list</b></p>
+        <div>
+          <p>Select the feature you want to predict using the available models</p>
+        </div>
+        <select id="feature_list" onchange="show_models()">
+          <option selected>None</option>
+        </select>
+      </div>
+
+      <p><b>Model list</b></p>
+      <div id="model_frame">
+        <div id="model_container"></div>
+        <!--button id="more" class="invisible">More</!--button-->
+        </br></br>
+        <div id="footer"><i>Ref: 1. The chemical editor is based on the open library, JSME, and is part of the work
+            published in B.
+            Bienfait and P. Ertl, JSME: a free molecule editor in JavaScript, J. Cheminformatics 5:24 (2013)</i> </div>
+      </div>
+
+      <img id="my-loader" class="invisible" src="assets/images/sample_img.gif">
+      <!--div id="my-loader" class="text-danger ldld bare"></!--div-->
+      <!--div id="loading" style="display:none;">
+      Loading Please Wait....
+      <img src="sample_img.gif" alt="Loading" />
+    </!--div-->
+    </div>
+    <div id="response_frame">
+      <div id="response_container" class="visible">
+        <p><b>Prediction</b></p>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+
+</html>
