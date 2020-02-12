@@ -1,6 +1,5 @@
 {
-    "keycloak_server":"http://localhost:8180",
-    "jaqpot":"http://localhost:8080/jaqpot"
+    "jaqpot_base_url":"http://localhost:8080/jaqpot/"
 
     
 }
